@@ -6,20 +6,13 @@ This deliverable builds a secondary dataset of financial-statement features from
 
 ```
 ├── README.md
-├── requirements.txt
-├── .gitignore                         # excludes edgar_cache/ (raw downloads)
-├── notebooks/
-│   └── 01_edgar_data_extraction.ipynb # extraction + feature engineering (run top to bottom)
+├──  01_edgar_data_extraction.ipynb # extraction + feature engineering (run top to bottom)
 ├── data/
 │   └── processed/                     # secondary dataset produced by the notebook
 │       ├── quarterly_features.csv
 │       ├── annual_features.csv
 │       ├── facts_long.csv
 │       └── coverage_report.csv
-├── docs/
-│   └── data_dictionary.csv            # every output column: type, unit, description, source/formula
-└── tests/
-    └── test_fixture_generator.py      # simulated EDGAR responses for offline testing
 ```
 
 Running the notebook produces the dataset in `data/processed/`:
