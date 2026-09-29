@@ -1,0 +1,129 @@
+dataset,column,dtype,unit,description,source_or_formula
+quarterly_features; annual_features,cik,int,,SEC Central Index Key (unique company ID),company_tickers.json
+quarterly_features; annual_features,ticker,str,,Trading symbol,company_tickers.json
+quarterly_features; annual_features,company,str,,Registrant name,/submissions
+quarterly_features; annual_features,sic,str,,Standard Industrial Classification code (use for peer comparisons),/submissions
+quarterly_features; annual_features,sic_description,str,,SIC industry name,/submissions
+quarterly_features; annual_features,group,str,,"control = no widely reported accounting action; reference = publicly reported restatement/SEC action (weak label, verify)",notebook config
+quarterly_features; annual_features,reference_note,str,,Short description of the reported event for reference-group companies,notebook config
+quarterly_features; annual_features,fiscal_year,int,,"Fiscal year, from company fiscal-year-end (52/53-week aware)",derived
+quarterly_features; annual_features,period_end,date,,Last day of the period,XBRL end
+quarterly_features,fiscal_quarter,int,,Fiscal quarter 1-4,derived
+quarterly_features,calendar_quarter,str,,Calendar quarter label (e.g. 2021Q3) for cross-company alignment,period_end - 14 days
+quarterly_features,period_start,date,,First day of the quarter,XBRL start / derived
+quarterly_features,period_days,int,,Length of the quarter in days (84-112 typical),derived
+quarterly_features; annual_features,revenue,float,USD,Revenue. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: Revenues | RevenueFromContractWithCustomerExcludingAssessedTax | ...IncludingAssessedTax | SalesRevenueNet | SalesRevenueGoodsNet | SalesRevenueServicesNet | RevenuesNetOfInterestExpense
+quarterly_features; annual_features,cost_of_revenue,float,USD,Cost of revenue. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: CostOfRevenue | CostOfGoodsAndServicesSold | CostOfGoodsSold | CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization | CostOfServices; else revenue - gross_profit
+quarterly_features; annual_features,gross_profit,float,USD,Gross profit. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: GrossProfit; else revenue - cost_of_revenue
+quarterly_features; annual_features,sga,float,USD,Sga. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: SellingGeneralAndAdministrativeExpense
+quarterly_features; annual_features,rnd,float,USD,Rnd. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: ResearchAndDevelopmentExpense | ...ExcludingAcquiredInProcessCost
+quarterly_features; annual_features,operating_expenses,float,USD,Operating expenses. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: OperatingExpenses
+quarterly_features; annual_features,costs_and_expenses,float,USD,Costs and expenses. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: CostsAndExpenses
+quarterly_features; annual_features,operating_income,float,USD,Operating income. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: OperatingIncomeLoss
+quarterly_features; annual_features,net_income,float,USD,Net income. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: NetIncomeLoss | ProfitLoss | NetIncomeLossAvailableToCommonStockholdersBasic
+quarterly_features; annual_features,depreciation,float,USD,Depreciation. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: DepreciationDepletionAndAmortization | DepreciationAndAmortization | DepreciationAmortizationAndAccretionNet | Depreciation
+quarterly_features; annual_features,cfo,float,USD,Cfo. Amount for the period as first reported (discrete quarter in quarterly file; full year in annual file),us-gaap tags in priority order: NetCashProvidedByUsedInOperatingActivities | ...ContinuingOperations
+quarterly_features; annual_features,accounts_receivable,float,USD,"Accounts receivable. Balance at period end, as first reported",us-gaap tags in priority order: AccountsReceivableNetCurrent | ReceivablesNetCurrent
+quarterly_features; annual_features,inventory,float,USD,"Inventory. Balance at period end, as first reported",us-gaap tags in priority order: InventoryNet
+quarterly_features; annual_features,current_assets,float,USD,"Current assets. Balance at period end, as first reported",us-gaap tags in priority order: AssetsCurrent
+quarterly_features; annual_features,total_assets,float,USD,"Total assets. Balance at period end, as first reported",us-gaap tags in priority order: Assets
+quarterly_features; annual_features,ppe_net,float,USD,"Ppe net. Balance at period end, as first reported",us-gaap tags in priority order: PropertyPlantAndEquipmentNet
+quarterly_features; annual_features,current_liabilities,float,USD,"Current liabilities. Balance at period end, as first reported",us-gaap tags in priority order: LiabilitiesCurrent
+quarterly_features; annual_features,total_liabilities,float,USD,"Total liabilities. Balance at period end, as first reported",us-gaap tags in priority order: Liabilities; else LiabilitiesAndStockholdersEquity - equity
+quarterly_features; annual_features,long_term_debt,float,USD,"Long term debt. Balance at period end, as first reported",us-gaap tags in priority order: LongTermDebtNoncurrent | LongTermDebt
+quarterly_features; annual_features,equity,float,USD,"Equity. Balance at period end, as first reported",us-gaap tags in priority order: StockholdersEquity | StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest
+quarterly_features; annual_features,cash,float,USD,"Cash. Balance at period end, as first reported",us-gaap tags in priority order: CashAndCashEquivalentsAtCarryingValue | CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents
+quarterly_features; annual_features,deferred_revenue,float,USD,"Deferred revenue. Balance at period end, as first reported",us-gaap tags in priority order: ContractWithCustomerLiabilityCurrent | DeferredRevenueCurrent
+quarterly_features,revenue_qoq_growth,float,ratio,Revenue growth vs previous quarter,"revenue / revenue[prev quarter, 75-125 days earlier] - 1"
+quarterly_features,revenue_yoy_growth,float,ratio,Revenue growth vs same quarter prior year (seasonality-neutral),revenue / revenue[340-390 days earlier] - 1
+quarterly_features,cogs_yoy_growth,float,ratio,Cost of revenue YoY growth,as above
+quarterly_features,sga_yoy_growth,float,ratio,SG&A YoY growth,as above
+quarterly_features,net_income_yoy_growth,float,ratio,Net income YoY change scaled by |prior|,(NI - NI_py) / |NI_py|
+quarterly_features,ar_yoy_growth,float,ratio,Receivables YoY growth,as above
+quarterly_features,inventory_yoy_growth,float,ratio,Inventory YoY growth,as above
+quarterly_features,deferred_revenue_yoy_growth,float,ratio,Deferred revenue YoY growth,as above
+quarterly_features,cogs_to_revenue,float,ratio,Expense-to-revenue: cost of revenue,cost_of_revenue / revenue
+quarterly_features,sga_to_revenue,float,ratio,Expense-to-revenue: SG&A,sga / revenue
+quarterly_features,rnd_to_revenue,float,ratio,Expense-to-revenue: R&D,rnd / revenue
+quarterly_features,opex_to_revenue,float,ratio,Expense-to-revenue: reported operating expenses,operating_expenses / revenue
+quarterly_features,total_expense_to_revenue,float,ratio,All operating costs relative to revenue; robust to missing expense tags,(revenue - operating_income) / revenue
+quarterly_features,gross_margin,float,ratio,Gross margin,gross_profit / revenue
+quarterly_features,operating_margin,float,ratio,Operating margin,operating_income / revenue
+quarterly_features,net_margin,float,ratio,Net margin,net_income / revenue
+quarterly_features,gross_margin_yoy_change,float,pct points,Change in gross margin vs same quarter prior year,gross_margin - gross_margin_py
+quarterly_features,operating_margin_yoy_change,float,pct points,Change in operating margin vs same quarter prior year,operating_margin - operating_margin_py
+quarterly_features,expense_ratio_yoy_change,float,pct points,Change in total expense-to-revenue vs same quarter prior year,total_expense_to_revenue - py
+quarterly_features,dso,float,days,Days sales outstanding; rising DSO can indicate aggressive revenue recognition,accounts_receivable / revenue * period_days
+quarterly_features,dio,float,days,Days inventory outstanding,inventory / cost_of_revenue * period_days
+quarterly_features,ar_growth_minus_revenue_growth,float,ratio,Receivables growing faster than sales (channel-stuffing signal),ar_yoy_growth - revenue_yoy_growth
+quarterly_features,inventory_growth_minus_revenue_growth,float,ratio,Inventory growing faster than sales,inventory_yoy_growth - revenue_yoy_growth
+quarterly_features,sga_growth_minus_revenue_growth,float,ratio,SG&A growing faster/slower than sales,sga_yoy_growth - revenue_yoy_growth
+quarterly_features,accruals_to_assets,float,ratio,Sloan accruals: earnings not backed by cash,"(net_income - cfo) / average(total_assets, prior-quarter total_assets)"
+quarterly_features,cfo_to_net_income,float,ratio,Cash conversion of earnings,cfo / |net_income|
+quarterly_features,leverage,float,ratio,Liabilities to assets,total_liabilities / total_assets
+quarterly_features,current_ratio,float,ratio,Liquidity,current_assets / current_liabilities
+quarterly_features,z_revenue_qoq_growth,float,std devs,Trailing Z-score of revenue_qoq_growth vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_revenue_qoq_growth,float,robust std devs,Robust trailing Z-score of revenue_qoq_growth (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_revenue_yoy_growth,float,std devs,Trailing Z-score of revenue_yoy_growth vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_revenue_yoy_growth,float,robust std devs,Robust trailing Z-score of revenue_yoy_growth (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_total_expense_to_revenue,float,std devs,Trailing Z-score of total_expense_to_revenue vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_total_expense_to_revenue,float,robust std devs,Robust trailing Z-score of total_expense_to_revenue (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_gross_margin,float,std devs,Trailing Z-score of gross_margin vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_gross_margin,float,robust std devs,Robust trailing Z-score of gross_margin (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_operating_margin,float,std devs,Trailing Z-score of operating_margin vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_operating_margin,float,robust std devs,Robust trailing Z-score of operating_margin (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_dso,float,std devs,Trailing Z-score of dso vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_dso,float,robust std devs,Robust trailing Z-score of dso (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_accruals_to_assets,float,std devs,Trailing Z-score of accruals_to_assets vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_accruals_to_assets,float,robust std devs,Robust trailing Z-score of accruals_to_assets (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,z_ar_growth_minus_revenue_growth,float,std devs,Trailing Z-score of ar_growth_minus_revenue_growth vs the company's previous 8 quarters (min 4); no look-ahead,(x_t - mean(x_t-8..t-1)) / std(x_t-8..t-1)
+quarterly_features,rz_ar_growth_minus_revenue_growth,float,robust std devs,Robust trailing Z-score of ar_growth_minus_revenue_growth (median/MAD),0.6745 * (x_t - median) / MAD over previous 8 quarters
+quarterly_features,n_abs_z_gt_3,int,count,Number of trailing Z-scores with |z| > 3 in the quarter,count over z_* columns
+quarterly_features,max_abs_z,float,std devs,Largest |z| across z_* columns,max |z_*|
+quarterly_features,revenue_latest,float,USD,Latest restated/recast revenue for the quarter; blank when it cannot be derived on a consistent basis,latest filed values
+quarterly_features,revenue_restatement_pct,float,ratio,Change from first-reported to latest revenue (0 = never restated; includes recasts for discontinued operations),(revenue_latest - revenue) / |revenue|
+quarterly_features,n_items_restated,int,count,Number of income/cash-flow items whose latest value differs >0.5% from first-reported,facts de-duplication
+quarterly_features,n_bs_items_restated,int,count,Same for balance-sheet items at period end,facts de-duplication
+quarterly_features,any_amended,bool,,Latest value of any item came from a 10-K/A or 10-Q/A,form
+quarterly_features,revenue_tag,str,,XBRL tag used for revenue this quarter,tag priority
+quarterly_features,revenue_method,str,,reported_3m | ytd_diff | annual_minus_3q (how the discrete quarter was obtained),quarterization
+quarterly_features,revenue_tag_changed,bool,,"Revenue tag differs from previous quarter; growth may reflect tagging, not business",tag comparison
+quarterly_features,dq_negative_revenue,bool,,Data-quality flag: negative revenue,revenue < 0
+quarterly_features,dq_missing_revenue,bool,,Data-quality flag: no revenue found,revenue is null
+quarterly_features,dq_period_length_unusual,bool,,Data-quality flag: quarter length outside 75-125 days,period_days
+quarterly_features,dq_quarter_looks_annual,bool,,Source error: a full-year value was tagged as a quarter; revenue set to missing,revenue > 0.9 x annual revenue
+quarterly_features,dq_quarter_sum_mismatch,bool,,The fiscal year's four quarters differ from annual revenue by more than 2%; exclude from modelling,|sum(Q1..Q4) - annual| > 2%
+annual_features,beneish_dsri,float,index,Days Sales in Receivables Index,(AR/Sales)_t / (AR/Sales)_t-1
+annual_features,beneish_gmi,float,index,Gross Margin Index (>1 = deteriorating margin),GM_t-1 / GM_t
+annual_features,beneish_aqi,float,index,Asset Quality Index,[1-(CA+PPE)/TA]_t / [..]_t-1
+annual_features,beneish_sgi,float,index,Sales Growth Index,Sales_t / Sales_t-1
+annual_features,beneish_depi,float,index,Depreciation Index,[Dep/(Dep+PPE)]_t-1 / [..]_t
+annual_features,beneish_sgai,float,index,SG&A Index,(SGA/Sales)_t / (SGA/Sales)_t-1
+annual_features,beneish_lvgi,float,index,Leverage Index,[(CL+LTD)/TA]_t / [..]_t-1
+annual_features,beneish_tata,float,index,Total accruals to total assets,(NI - CFO) / TA
+annual_features,beneish_m_score,float,index,Beneish 8-variable M-Score,-4.84 + .920 DSRI + .528 GMI + .404 AQI + .892 SGI + .115 DEPI - .172 SGAI + 4.679 TATA - .327 LVGI
+annual_features,beneish_flag,bool,,M-Score above -1.78 (conventional manipulation-likelihood threshold),beneish_m_score > -1.78
+annual_features,revenue_yoy_growth,float,ratio,Revenue growth vs prior fiscal year,annual figures
+annual_features,gross_margin,float,ratio,Gross margin,annual figures
+annual_features,operating_margin,float,ratio,Operating margin,annual figures
+annual_features,net_margin,float,ratio,Net margin,annual figures
+annual_features,total_expense_to_revenue,float,ratio,(revenue - operating_income)/revenue,annual figures
+annual_features,dso,float,days,AR / revenue * 365,annual figures
+annual_features,n_items_restated,int,count,Annual income/cash-flow items restated >0.5% after first filing,facts de-duplication
+facts_long,cik,int,,Company ID,companyfacts
+facts_long,ticker,str,,Symbol,companyfacts
+facts_long,item,str,,Standard line item,companyfacts
+facts_long,tag,str,,us-gaap tag,companyfacts
+facts_long,start,date,,Period start (blank for balance sheet),companyfacts
+facts_long,end,date,,Period end / balance date,companyfacts
+facts_long,duration_days,int,,end - start,companyfacts
+facts_long,val,float,,Latest reported value (USD),companyfacts
+facts_long,first_val,float,,First reported value (USD),companyfacts
+facts_long,restatement_pct,float,,(val-first_val)/|first_val|,companyfacts
+facts_long,restated,bool,,Differs >0.5%,companyfacts
+facts_long,n_reports,int,,Number of filings that reported this fact,companyfacts
+facts_long,first_filed,date,,Date first filed,companyfacts
+facts_long,last_filed,date,,Date last filed,companyfacts
+facts_long,last_form,str,,Form of latest filing,companyfacts
+facts_long,last_accn,str,,Accession number of latest filing (look up on EDGAR),companyfacts
+facts_long,amended,bool,,Latest value from an amendment,companyfacts
